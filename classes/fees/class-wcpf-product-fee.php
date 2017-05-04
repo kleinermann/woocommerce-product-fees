@@ -92,8 +92,13 @@ class WCPF_Product_Fee extends WCPF_Fee {
 			return false;
 		}
 
-		// Run the percentage check.
-		$fee_amount = $this->percentage_conversion( $fee_data['amount'] );
+		/* 
+		* Run the percentage check
+		*
+		* Fix for issue #9, based on a suggestion by @jargovi https://wordpress.org/support/topic/add-support-for-decimal-amounts-with-commas/
+		*/
+		
+		$fee_amount = str_replace(',', '.', $this->percentage_conversion( $fee_data['amount'] ));
 
 		// Multiply the fee by the quantity if necessary.
 		if ( $fee_data['multiplier'] == 'yes' ) {
